@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "D346C2C0-1774-4568-9A3D-515C9E30DAB2",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "YT_API_KEY",
+        "value" : "$(YT_API_KEY)"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:YouTube Kids.xcodeproj",
+      "identifier" : "34441A5B2DB76C0F008CD0BA",
+      "name" : "YouTube Kids"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:YouTube Kids.xcodeproj",
+        "identifier" : "34441A6C2DB76C10008CD0BA",
+        "name" : "YouTube KidsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
