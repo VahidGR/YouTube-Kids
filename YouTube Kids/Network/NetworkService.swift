@@ -10,15 +10,6 @@ import Combine
 
 private let networkQueue = DispatchQueue(label: "com.vahid.youtubekids.networkQueue")
 
-struct NetworkFactory {
-    func instance<Session: URLSessionProtocol>(session: Session = URLSession.shared) -> some NetworkService { NetworkAgent(session: session) }
-    func cacheFirst() -> URLSessionConfiguration {
-        let configuration = URLSessionConfiguration.default
-        configuration.requestCachePolicy = .returnCacheDataElseLoad
-        return configuration
-    }
-}
-
 protocol NetworkService: Sendable {
     @discardableResult func fetch<T: Decodable>(url: URL, perform action: @escaping ((Response<T>) -> Void)) async -> ResponsePublisher<T>
 }
@@ -59,9 +50,16 @@ private actor NetworkAgent: NetworkService {
     }
 }
 
-enum AppError: Error, Equatable {
+enum AppError: Error, Equatable, LocalizedError {
     case network(message: String)
     case decode
+    
+    var errorDescription: String? {
+        switch self {
+            case .network(message: let message): return message
+            case .decode: return "Failed to decode response"
+        }
+    }
 }
 
 typealias Response<T: Decodable> = Result<T, AppError>
@@ -75,4 +73,8 @@ extension Data {
         
         return prettyPrintedString
     }
+}
+
+extension NetworkFactory {
+    func instance<Session: URLSessionProtocol>(session: Session = URLSession.shared) -> some NetworkService { NetworkAgent(session: session) }
 }

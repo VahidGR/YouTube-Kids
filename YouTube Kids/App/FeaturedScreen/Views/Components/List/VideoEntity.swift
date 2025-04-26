@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VideoEntity: Decodable {
+struct VideoEntity: Decodable, Identifiable {
     let id: UUID
     let channel: String
     let title: String

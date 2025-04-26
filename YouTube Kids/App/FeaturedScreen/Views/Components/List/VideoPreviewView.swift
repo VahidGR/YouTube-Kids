@@ -78,6 +78,7 @@ struct VideoPreviewView: View {
                         .aspectRatio(1, contentMode: .fit)
                         .frame(width: 24)
                 }
+                .buttonStyle(.plain)
                 .onAppear(perform: model.updateState)
             }
         }

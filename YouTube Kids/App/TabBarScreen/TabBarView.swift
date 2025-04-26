@@ -12,7 +12,10 @@ struct TabBarView: View {
     var body: some View {
         TabView {
             Tab("Featured", systemImage: "video.circle.fill") {
-                FeaturedVideosView(appStorage: appStorage, videos: mockList)
+                FeaturedVideosView(
+                    model: FeaturedVideosModelAgent(appStorage: appStorage),
+                    videos: mockList
+                )
             }
             
             Tab("Saved", systemImage: "bookmark.circle") {

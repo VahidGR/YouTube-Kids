@@ -13,4 +13,7 @@ struct Credentials {
     private static func environment<T>(value name: String) -> T {
         return unwrap(ProcessInfo.processInfo.environment[name] as? T)
     }
+    
+    /// Hide initialization method for other objects
+    private init() { }
 }
