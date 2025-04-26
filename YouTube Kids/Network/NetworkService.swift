@@ -12,6 +12,11 @@ private let networkQueue = DispatchQueue(label: "com.vahid.youtubekids.networkQu
 
 struct NetworkFactory {
     func instance<Session: URLSessionProtocol>(session: Session = URLSession.shared) -> some NetworkService { NetworkAgent(session: session) }
+    func cacheFirst() -> URLSessionConfiguration {
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        return configuration
+    }
 }
 
 protocol NetworkService: Sendable {
@@ -20,7 +25,7 @@ protocol NetworkService: Sendable {
 
 private actor NetworkAgent: NetworkService {
     private let session: URLSessionProtocol
-    private lazy var decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     private var cancellables: Set<AnyCancellable> = []
     
     init(session: URLSessionProtocol) {
@@ -61,3 +66,13 @@ enum AppError: Error, Equatable {
 
 typealias Response<T: Decodable> = Result<T, AppError>
 typealias ResponsePublisher<T: Decodable> = PassthroughSubject<Response<T>, Never>
+
+extension Data {
+    var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+        
+        return prettyPrintedString
+    }
+}

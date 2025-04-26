@@ -11,7 +11,7 @@ import SwiftUI
 struct YouTube_KidsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarView()
         }
     }
 }
